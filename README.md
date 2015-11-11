@@ -1,4 +1,4 @@
-# docker-autobuild
+# docker-emsdk-autobuild
 
 ### Build:
     ~$ sudo docker build -no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
