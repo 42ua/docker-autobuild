@@ -10,7 +10,7 @@ RUN \
 	curl -sL https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | tar xz && \
 	cd emsdk_portable/ && \
 	./emsdk update && \
-	./emsdk install -j2 latest && \
+	./emsdk install -j1 latest && \
 	./emsdk activate latest && \
 	find . -name "*.o" -exec rm {} \; && \
 	find . -name "*.a" -exec rm {} \; && \
