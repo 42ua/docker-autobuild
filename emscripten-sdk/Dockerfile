@@ -1,13 +1,12 @@
 FROM ubuntu
 
-WORKDIR ~/
-
 RUN \
 	apt-get update && apt-get install -y build-essential \
 	cmake python2.7 nodejs-legacy default-jre git-core curl && \
 	apt-get clean 
 
 RUN \
+	cd ~/ && \
 	curl -sL https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | tar xz && \
 	cd emsdk_portable/ && \
 	./emsdk update && \
