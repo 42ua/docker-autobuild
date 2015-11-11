@@ -23,6 +23,11 @@ int main() {
 
 ```
 ~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
+```
+
+### Makefiles:
+
+```
 ~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emconfigure ./configure
 ~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emmake make
 ```
