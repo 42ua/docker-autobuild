@@ -8,7 +8,7 @@
     #sudo docker ps -aq | sudo xargs docker rm
     #sudo docker rmi 42ua/emsdk
 
-## Usage:
+### Usage:
     ~$ docker pull 42ua/emsdk
 
 ### Sample:
