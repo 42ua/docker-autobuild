@@ -1,5 +1,4 @@
-FROM ubuntu:14.04
-MAINTAINER mazko (http://mazko.github.io/)
+FROM ubuntu
 
 WORKDIR ~/
 
