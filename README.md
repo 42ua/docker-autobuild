@@ -23,10 +23,16 @@ int main() {
 }
 ```
 
-### Compile:
+### Compile Sample:
 
 ```
 ~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
+```
+
+### Run Sample:
+
+```
+~$ node a.out.js
 ```
 
 ### Makefiles:
