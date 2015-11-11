@@ -24,3 +24,6 @@ RUN \
 ENV PATH ~/emsdk_portable:$PATH
 ENV PATH `ls -d ~/emsdk_portable/clang/fastcomp/build_master_*/bin`:$PATH
 ENV PATH ~/emsdk_portable/emscripten/master:$PATH
+
+VOLUME ["/home/src"]
+WORKDIR /home/src
