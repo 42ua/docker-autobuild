@@ -8,16 +8,16 @@
     #sudo docker rmi 42ua/emsdk
 
 ### Usage:
-    
+
 *hello_world.c*
+```
+#include<stdio.h>
 
-    #include<stdio.h>
-
-    int main() {
-      printf("hello, world!\n");
-      return 0;
-    }
-
+int main() {
+    printf("hello, world!\n");
+    return 0;
+}
+```
 
     ~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
     ~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emconfigure ./configure
