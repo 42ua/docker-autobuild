@@ -21,9 +21,20 @@ RUN \
 	apt-get -y --purge remove curl git-core cmake && \
 	apt-get -y autoremove && apt-get clean
 
+# source emsdk_env.sh
+# Adding directories to PATH:
+# PATH += /root/emsdk_portable
+# PATH += /root/emsdk_portable/clang/tag-e1.35.8/build_tag-e1.35.8_64/bin
+# PATH += /root/emsdk_portable/emscripten/tag-1.35.8
+
+# Setting environment variables:
+# EMSCRIPTEN = /root/emsdk_portable/emscripten/tag-1.35.8
+
 ENV PATH ~/emsdk_portable:$PATH
-ENV PATH `ls -d ~/emsdk_portable/clang/fastcomp/build_master_*/bin`:$PATH
-ENV PATH ~/emsdk_portable/emscripten/master:$PATH
+ENV PATH $(ls -d ~/emsdk_portable/clang/tag-*/build_tag-*)/bin:$PATH
+ENV PATH $(dirname $(ls -d ~/emsdk_portable/emscripten/tag-*/emcc)):$PATH
+
+ENV EMSCRIPTEN $(dirname $(ls -d ~/emsdk_portable/emscripten/tag-*/emcc))
 
 # http://docs.docker.com/engine/reference/run/#workdir
 WORKDIR /home/src
