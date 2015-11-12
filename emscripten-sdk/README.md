@@ -73,7 +73,7 @@ int main() {
     ~$ EMSDK_PATH=${EMSDK_PATH#"$CLEAN_PATH:"} # prefix
     ~$ {
          echo "FROM 42ua/emsdk"
-         echo "ENV PATH ${EMSDK_PATH%"$CLEAN_PATH"}:\$PATH"
+         echo "ENV PATH ${EMSDK_PATH}:\$PATH"
          echo "ENV EMSCRIPTEN ${EMSDK_EMSCRIPTEN}"
        } | sudo docker build --no-cache -t 42ua/emsdk -
     ~$ sudo docker push 42ua/emsdk
