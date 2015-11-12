@@ -62,7 +62,7 @@ int main() {
     Подкачка:   10387448          0   10387448
 ```
 
-### Build:
+### Build docker image:
     ~$ sudo docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
     ~$ sudo docker push 42ua/emsdk
     # sudo docker run -i -t --rm 42ua/emsdk /bin/bash
