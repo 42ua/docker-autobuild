@@ -1,6 +1,6 @@
 # docker-emsdk-autobuild
 
-### Usage:
+### Install:
     ~$ sudo docker pull 42ua/emsdk
 
 ### Sample:
@@ -64,6 +64,13 @@ int main() {
 
 ### Build docker image:
     ~$ sudo docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
+    ~$ EMSDK_PATH=`sudo docker run --rm 42ua/emsdk bash -c '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
+    ~$ EMSDK_EMSCRIPTEN=`sudo docker run --rm 42ua/emsdk bash -c '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
+    ~$ {
+         echo -e "FROM 42ua/emsdk\n"
+         echo -e "ENV PATH ${EMSDK_PATH}:$PATH\n"
+         echo -e "ENV EMSCRIPTEN ${EMSDK_EMSCRIPTEN}\n"
+       } | sudo docker build --no-cache -t 42ua/emsdk -
     ~$ sudo docker push 42ua/emsdk
     # sudo docker run -i -t --rm 42ua/emsdk /bin/bash
     # sudo docker ps -aq | sudo xargs docker stop

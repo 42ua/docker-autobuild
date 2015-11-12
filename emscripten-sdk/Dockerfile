@@ -27,14 +27,16 @@ RUN \
 # PATH += /root/emsdk_portable/clang/tag-e1.35.8/build_tag-e1.35.8_64/bin
 # PATH += /root/emsdk_portable/emscripten/tag-1.35.8
 
+# Dynamic variables not supported stackoverflow.com/q/27711304/ 
+
 # Setting environment variables:
 # EMSCRIPTEN = /root/emsdk_portable/emscripten/tag-1.35.8
 
-ENV PATH ~/emsdk_portable:$PATH
-ENV PATH $(ls -d ~/emsdk_portable/clang/tag-*/build_tag-*)/bin:$PATH
-ENV PATH $(dirname $(ls -d ~/emsdk_portable/emscripten/tag-*/emcc)):$PATH
+# ENV PATH ~/emsdk_portable:$PATH
+# ENV PATH $(ls -d ~/emsdk_portable/clang/tag-*/build_tag-*)/bin:$PATH
+# ENV PATH $(dirname $(ls -d ~/emsdk_portable/emscripten/tag-*/emcc)):$PATH
 
-ENV EMSCRIPTEN $(dirname $(ls -d ~/emsdk_portable/emscripten/tag-*/emcc))
+# ENV EMSCRIPTEN $(dirname $(ls -d ~/emsdk_portable/emscripten/tag-*/emcc))
 
 # http://docs.docker.com/engine/reference/run/#workdir
 WORKDIR /home/src
