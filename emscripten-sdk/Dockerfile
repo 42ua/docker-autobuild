@@ -11,7 +11,11 @@ RUN \
 	cd emsdk_portable/ && \
 	./emsdk update && \
 	./emsdk install -j1 latest && \
-	./emsdk activate latest && \
+	./emsdk activate latest
+
+RUN \
+	rm -rf ~/emsdk_portable/clang/tag-*/src && \
+	rm -rf ~/emsdk_portable/emscripten/tag-*/src && \
 	find . -name "*.o" -exec rm {} \; && \
 	find . -name "*.a" -exec rm {} \; && \
 	find . -name "*.tmp" -exec rm {} \; && \
