@@ -34,7 +34,7 @@ int main() {
 ~$ sudo docker run --rm -v $(pwd):/home/src 42ua/emsdk emmake make
 ```
 
-### Optional increase memory before Build:
+### Optional increase memory before build docker image:
 ```
     ~$ free
                  total       used       free     shared    buffers     cached
