@@ -64,11 +64,14 @@ int main() {
 
 ### Build docker image:
     ~$ sudo docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
-    ~$ EMSDK_PATH=`sudo docker run --rm 42ua/emsdk bash -c '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
-    ~$ EMSDK_EMSCRIPTEN=`sudo docker run --rm 42ua/emsdk bash -c '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
+    ~$ CLEAN_PATH=`sudo docker run --rm 42ua/emsdk bash -c 'echo $PATH'`
+    ~$ EMSDK_PATH=`sudo docker run --rm 42ua/emsdk bash -c \
+        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
+    ~$ EMSDK_EMSCRIPTEN=`sudo docker run --rm 42ua/emsdk bash -c \
+        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
     ~$ {
          echo "FROM 42ua/emsdk"
-         echo "ENV PATH ${EMSDK_PATH}"
+         echo "ENV PATH ${EMSDK_PATH%"$CLEAN_PATH"}\$PATH"
          echo "ENV EMSCRIPTEN ${EMSDK_EMSCRIPTEN}"
        } | sudo docker build --no-cache -t 42ua/emsdk -
     ~$ sudo docker push 42ua/emsdk
