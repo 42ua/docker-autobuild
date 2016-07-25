@@ -1,7 +1,7 @@
 # docker-emsdk-autobuild
 
 ### Install:
-    ~$ sudo docker pull 42ua/emsdk
+    ~$ docker pull 42ua/emsdk
 
 ### Sample:
 
@@ -18,7 +18,7 @@ int main() {
 ### Compile Sample:
 
 ```
-~$ sudo docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
+~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
 ```
 
 ### Run Sample:
@@ -30,8 +30,8 @@ int main() {
 ### Makefiles:
 
 ```
-~$ sudo docker run --rm -v $(pwd):/home/src 42ua/emsdk emconfigure ./configure
-~$ sudo docker run --rm -v $(pwd):/home/src 42ua/emsdk emmake make
+~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emconfigure ./configure
+~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emmake make
 ```
 
 ### Optional increase memory before build docker image:
@@ -63,11 +63,12 @@ int main() {
 ```
 
 ### Build docker image:
-    ~$ sudo docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
-    ~$ CLEAN_PATH=`sudo docker run --rm 42ua/emsdk bash -c 'echo $PATH'`
-    ~$ EMSDK_PATH=`sudo docker run --rm 42ua/emsdk bash -c \
+    ~$ git clone https://github.com/42ua/docker-autobuild.git && cd docker-autobuild
+    ~$ docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
+    ~$ CLEAN_PATH=`docker run --rm 42ua/emsdk bash -c 'echo $PATH'`
+    ~$ EMSDK_PATH=`docker run --rm 42ua/emsdk bash -c \
         '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
-    ~$ EMSDK_EMSCRIPTEN=`sudo docker run --rm 42ua/emsdk bash -c \
+    ~$ EMSDK_EMSCRIPTEN=`docker run --rm 42ua/emsdk bash -c \
         '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
     ~$ EMSDK_PATH=${EMSDK_PATH%":$CLEAN_PATH"} # suffix
     ~$ EMSDK_PATH=${EMSDK_PATH#"$CLEAN_PATH:"} # prefix
@@ -75,10 +76,11 @@ int main() {
          echo "FROM 42ua/emsdk"
          echo "ENV PATH ${EMSDK_PATH}:\$PATH"
          echo "ENV EMSCRIPTEN ${EMSDK_EMSCRIPTEN}"
-       } | sudo docker build --no-cache -t 42ua/emsdk -
-    ~$ sudo docker push 42ua/emsdk
-    # sudo docker run -i -t --rm 42ua/emsdk /bin/bash
-    # sudo docker ps -aq | sudo xargs docker stop
-    # sudo docker ps -aq | sudo xargs docker rm
-    # sudo docker rmi 42ua/emsdk
-    # sudo docker images -qa | sudo xargs docker rmi
+       } | docker build --no-cache -t 42ua/emsdk -
+    ~$ docker run -it --rm 42ua/emsdk emcc -v
+    # 1.36.0
+    ~$ docker push 42ua/emsdk
+    # docker ps -aq | xargs docker stop
+    # docker ps -aq | xargs docker rm
+    # docker rmi 42ua/emsdk
+    # docker images -qa | xargs docker rmi
