@@ -3,6 +3,20 @@
 ### Install:
     ~$ docker pull 42ua/emsdk
 
+### Env (BASH)
+
+    emcc() {
+      docker run --rm -v `pwd`:/home/src 42ua/emsdk bash -c ". ~/emsdk_portable/emsdk_env.sh && emcc $@"
+    }
+
+    emconfigure() {
+      docker run --rm -v `pwd`:/home/src 42ua/emsdk bash -c ". ~/emsdk_portable/emsdk_env.sh && emconfigure $@"
+    }
+
+    emmake() {
+      docker run --rm -v `pwd`:/home/src 42ua/emsdk bash -c ". ~/emsdk_portable/emsdk_env.sh && emmake $@"
+    }
+
 ### Sample:
 
 *hello_world.c*
@@ -18,7 +32,7 @@ int main() {
 ### Compile Sample:
 
 ```
-~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
+~$ emcc hello_world.c
 ```
 
 ### Run Sample:
@@ -30,8 +44,8 @@ int main() {
 ### Makefiles:
 
 ```
-~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emconfigure ./configure
-~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emmake make
+~$ emconfigure ./configure
+~$ emmake make
 ```
 
 ### Optional increase memory before build docker image:
@@ -65,20 +79,6 @@ int main() {
 ### Build docker image:
     ~$ git clone https://github.com/42ua/docker-autobuild.git && cd docker-autobuild
     ~$ docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
-    ~$ CLEAN_PATH=`docker run --rm 42ua/emsdk bash -c 'echo $PATH'`
-    ~$ EMSDK_PATH=`docker run --rm 42ua/emsdk bash -c \
-        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
-    ~$ EMSDK_EMSCRIPTEN=`docker run --rm 42ua/emsdk bash -c \
-        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
-    ~$ EMSDK_PATH=${EMSDK_PATH%":$CLEAN_PATH"} # suffix
-    ~$ EMSDK_PATH=${EMSDK_PATH#"$CLEAN_PATH:"} # prefix
-    ~$ {
-         echo "FROM 42ua/emsdk"
-         echo "ENV PATH ${EMSDK_PATH}:\$PATH"
-         echo "ENV EMSCRIPTEN ${EMSDK_EMSCRIPTEN}"
-       } | docker build --no-cache -t 42ua/emsdk -
-    ~$ docker run -it --rm 42ua/emsdk emcc -v
-    # 1.36.0
     ~$ docker push 42ua/emsdk
     # docker ps -aq | xargs docker stop
     # docker ps -aq | xargs docker rm
