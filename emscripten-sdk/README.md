@@ -37,7 +37,7 @@ int main() {
 ### Useful Env(BASH):
 
     for alias in 'emcc' 'emconfigure' 'emmake'; do
-      alias $alias="sudo docker run -i -t --rm -v \$(pwd):/home/src 42ua/emsdk $alias"
+      alias $alias="docker run -i -t --rm -v \$(pwd):/home/src 42ua/emsdk $alias"
     done
     unset alias
 
