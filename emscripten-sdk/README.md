@@ -3,20 +3,6 @@
 ### Install:
     ~$ docker pull 42ua/emsdk
 
-### Env (BASH)
-
-    emcc() {
-      docker run --rm -v `pwd`:/home/src 42ua/emsdk bash -c ". ~/emsdk_portable/emsdk_env.sh && emcc $@"
-    }
-
-    emconfigure() {
-      docker run --rm -v `pwd`:/home/src 42ua/emsdk bash -c ". ~/emsdk_portable/emsdk_env.sh && emconfigure $@"
-    }
-
-    emmake() {
-      docker run --rm -v `pwd`:/home/src 42ua/emsdk bash -c ". ~/emsdk_portable/emsdk_env.sh && emmake $@"
-    }
-
 ### Sample:
 
 *hello_world.c*
@@ -32,7 +18,7 @@ int main() {
 ### Compile Sample:
 
 ```
-~$ emcc hello_world.c
+~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emcc hello_world.c
 ```
 
 ### Run Sample:
@@ -44,9 +30,20 @@ int main() {
 ### Makefiles:
 
 ```
-~$ emconfigure ./configure
-~$ emmake make
+~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emconfigure ./configure
+~$ docker run --rm -v $(pwd):/home/src 42ua/emsdk emmake make
 ```
+
+### Useful Env(BASH):
+
+    for local alias in 'emcc' 'emconfigure' 'emmake'; do
+      alias $alias="sudo docker run -i -t --rm -v \$(pwd):/home/src 42ua/emsdk $alias"
+    done
+    unset alias
+
+    PS1="(emsdk)$PS1"
+
+Env usage: ```emcc -v```
 
 ### Optional increase memory before build docker image:
 ```
@@ -78,7 +75,25 @@ int main() {
 
 ### Build docker image:
     ~$ git clone https://github.com/42ua/docker-autobuild.git && cd docker-autobuild
-    ~$ docker build --no-cache -t 42ua/emsdk -f emscripten-sdk/Dockerfile .
+    ~$ docker build --no-cache -t emsdk -f emscripten-sdk/Dockerfile .
+    ~$ CLEAN_PATH=`docker run --rm emsdk bash -c 'echo $PATH'`
+    ~$ EMSDK_PATH=`docker run --rm emsdk bash -c \
+        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
+    ~$ EMSDK_EMSCRIPTEN=`docker run --rm emsdk bash -c \
+        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
+    ~$ EM_CONFIG=`docker run --rm emsdk bash -c \
+        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EM_CONFIG'`
+    ~$ EMSDK_PATH=${EMSDK_PATH%":$CLEAN_PATH"} # suffix
+    ~$ EMSDK_PATH=${EMSDK_PATH#"$CLEAN_PATH:"} # prefix
+    ~$ {
+         echo "FROM emsdk"
+         echo "ENV PATH ${EMSDK_PATH}:\$PATH"
+         echo "ENV EM_CONFIG ${EM_CONFIG}"
+         echo "ENV EMSCRIPTEN ${EMSDK_EMSCRIPTEN}"
+       } | docker build --no-cache -t 42ua/emsdk -
+    ~$ docker run -it --rm 42ua/emsdk emcc -v
+    # 1.36.0
+    ~$ docker rmi emsdk
     ~$ docker push 42ua/emsdk
     # docker ps -aq | xargs docker stop
     # docker ps -aq | xargs docker rm
