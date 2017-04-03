@@ -78,11 +78,11 @@ Env usage: ```emcc -v```
     ~$ docker build --no-cache -t emsdk -f emscripten-sdk/Dockerfile .
     ~$ CLEAN_PATH=`docker run --rm emsdk bash -c 'echo $PATH'`
     ~$ EMSDK_PATH=`docker run --rm emsdk bash -c \
-        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $PATH'`
+        '. ~/emsdk-portable/emsdk_env.sh > /dev/null ; echo $PATH'`
     ~$ EMSDK_EMSCRIPTEN=`docker run --rm emsdk bash -c \
-        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
+        '. ~/emsdk-portable/emsdk_env.sh > /dev/null ; echo $EMSCRIPTEN'`
     ~$ EM_CONFIG=`docker run --rm emsdk bash -c \
-        '. ~/emsdk_portable/emsdk_env.sh > /dev/null ; echo $EM_CONFIG'`
+        '. ~/emsdk-portable/emsdk_env.sh > /dev/null ; echo $EM_CONFIG'`
     ~$ EMSDK_PATH=${EMSDK_PATH%":$CLEAN_PATH"} # suffix
     ~$ EMSDK_PATH=${EMSDK_PATH#"$CLEAN_PATH:"} # prefix
     ~$ {
